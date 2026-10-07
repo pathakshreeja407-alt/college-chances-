@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>College Chances Calculator India – JEE, NEET, CLAT, IPM, CUET | Check Your Admission Chances</title>
+<meta name="description" content="Free college chances calculator for Indian students. Enter your marks and exam status for JEE, NEET, CLAT, IPMAT, NID/UCEED and CUET to see Reach, Target or Likely colleges, with eligibility rules and recent cutoffs.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="College Chances Calculator India">
+<meta property="og:description" content="Free college chances calculator for Indian students. Enter your marks and exam status for JEE, NEET, CLAT, IPMAT, NID/UCEED and CUET to see Reach, Target or Likely colleges, with eligibility rules and recent cutoffs.">
+<meta name="robots" content="index, follow">
+<style>
+:root{
+  --orange:#b8390a; --btn:#b8390a; --orange-light:#fbeadd; --ink:#1c1f26; --sub:#5b6270;
+  --bg:#faf7f2; --card:#ffffff; --border:#e5e1da; --green:#1f9d55; --amber:#c98a1c; --red:#c94b2f;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --orange:#ff9a5c; --ink:#f0eee8; --sub:#b7b6b2; --bg:#15161a; --card:#1f2127; --border:#2c2e35; --orange-light:#3a2716; }
+}
+:root[data-theme="dark"]{ --orange:#ff9a5c; --ink:#f0eee8; --sub:#b7b6b2; --bg:#15161a; --card:#1f2127; --border:#2c2e35; --orange-light:#3a2716; }
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+*{box-sizing:border-box;}
+body{margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif; background:var(--bg); color:var(--ink); min-height:100%;}
+.wrap{max-width:640px; margin:0 auto; padding:20px 16px 60px;}
+h1{font-size:1.3rem; margin:4px 0 2px;}
+.sub{color:var(--sub); font-size:.92rem; margin-bottom:14px;}
+.quickfill{display:inline-block; font-size:.82rem; color:var(--orange); border:1px solid var(--orange); background:var(--orange-light); border-radius:20px; padding:7px 14px; cursor:pointer; margin-bottom:16px; font-weight:600;}
+.progress{height:6px; background:var(--border); border-radius:6px; overflow:hidden; margin-bottom:20px;}
+.progress > div{height:100%; background:var(--orange); border-radius:6px; transition:width .25s;}
+.card{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:20px; margin-bottom:14px;}
+.card h2{font-size:1.05rem; margin:0 0 4px;}
+.card .hint{color:var(--sub); font-size:.85rem; margin-bottom:14px;}
+label{display:block; font-weight:600; font-size:.88rem; margin:14px 0 6px;}
+label:first-child{margin-top:0;}
+input[type=number], select{width:100%; padding:11px 12px; border:1px solid var(--border); border-radius:9px; font-size:.95rem; background:var(--bg); color:var(--ink);}
+input[type=range]{width:100%; accent-color:var(--orange); margin-top:6px;}
+.range-row{display:flex; justify-content:space-between; font-size:.72rem; color:var(--sub); margin-top:2px;}
+.range-val{color:var(--orange); font-weight:700; text-align:center; font-size:1rem; margin-top:2px;}
+.chip-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:4px;}
+.chip{border:1px solid var(--border); border-radius:9px; padding:10px 12px; font-size:.85rem; cursor:pointer; user-select:none; background:var(--bg); text-align:center;}
+.chip.sel{border-color:var(--orange); background:var(--orange-light); color:var(--orange); font-weight:600;}
+.btnrow{display:flex; justify-content:space-between; margin-top:18px; gap:10px;}
+button{border:none; border-radius:10px; padding:12px 18px; font-size:.92rem; font-weight:700; cursor:pointer;}
+.btn-primary{background:var(--btn); color:#fff; flex:1;}
+.btn-primary:disabled{opacity:.5; cursor:not-allowed;}
+.btn-ghost{background:transparent; color:var(--sub); border:1px solid var(--border);}
+.gpa-note{background:var(--orange-light); border:1px solid var(--orange); border-radius:10px; padding:10px 12px; font-size:.82rem; color:var(--ink); margin-top:10px;}
+.college{border:1px solid var(--border); border-radius:12px; padding:14px; margin-bottom:10px; background:var(--card);}
+.college-top{display:flex; justify-content:space-between; align-items:baseline; gap:8px;}
+.college-name{font-weight:700; font-size:.98rem;}
+.badge{font-size:.72rem; font-weight:700; padding:3px 9px; border-radius:20px; white-space:nowrap;}
+.badge.reach{background:#fbe5e0; color:var(--red);}
+.badge.target{background:#fbeecc; color:var(--amber);}
+.badge.likely{background:#dcf3e3; color:var(--green);}
+.bar-track{height:8px; background:var(--border); border-radius:6px; margin:10px 0 6px; overflow:hidden;}
+.bar-fill{height:100%; border-radius:6px;}
+.college-note{font-size:.82rem; color:var(--sub); line-height:1.4;}
+.section-title{font-size:.95rem; font-weight:700; margin:22px 0 10px;}
+.disclaimer{font-size:.78rem; color:var(--sub); border-top:1px solid var(--border); margin-top:20px; padding-top:14px; line-height:1.5;}
+.source-note{font-size:.72rem; color:var(--sub); margin-top:6px; font-style:italic;}
+.ec-item{display:flex; align-items:flex-start; gap:8px; font-weight:400; font-size:.86rem; margin:8px 0; cursor:pointer;}
+.ec-item input{margin-top:3px; accent-color:var(--orange);}
+.hidden{display:none !important;}
+.ab-chips{display:flex; flex-wrap:wrap; gap:6px; margin:6px 0;}
+.ab-chip{font-size:.72rem; font-weight:600; padding:3px 9px; border-radius:20px; background:var(--orange-light); color:var(--ink); border:1px solid var(--border);}
+.ab-sec{margin-top:12px;}
+.ab-sec b{display:block; font-size:.82rem; margin-bottom:2px;}
+.ab-sec div{font-size:.86rem; line-height:1.45; color:var(--ink);}
+.ab-links a{display:block; color:var(--orange); font-size:.84rem; margin-top:3px;}
+.ab-link-btn{background:none; border:none; color:var(--orange); font-weight:700; cursor:pointer; padding:6px 0; font-size:.88rem;}
+.nav{position:sticky; top:env(safe-area-inset-top,0px); z-index:10; background:var(--bg); border-bottom:1px solid var(--border);}
+.nav-in{max-width:960px; margin:0 auto; padding:12px 16px; display:flex; justify-content:space-between; align-items:center;}
+.brand{font-weight:800; color:var(--orange); cursor:pointer; font-size:1.05rem;}
+.nav a{color:var(--sub); text-decoration:none; font-size:.88rem; font-weight:600; margin-left:16px; cursor:pointer;}
+.hero{max-width:760px; margin:0 auto; padding:56px 20px 36px; text-align:center;}
+.hero h1{font-size:clamp(1.9rem,6vw,3rem); line-height:1.15; margin:0 0 14px;}
+.hero h1 span{color:var(--orange);}
+.hero p{color:var(--sub); font-size:1.05rem; line-height:1.55; margin:0 auto 26px; max-width:560px;}
+.hero .btn-primary{flex:none; padding:14px 28px; font-size:1rem;}
+.features{max-width:960px; margin:0 auto; padding:10px 16px 40px; display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px;}
+.feat{background:var(--card); border:1px solid var(--border); border-radius:14px; padding:18px;}
+.feat b{display:block; margin-bottom:6px;}
+.feat span{color:var(--sub); font-size:.88rem; line-height:1.45;}
+.streams{max-width:760px; margin:0 auto; padding:0 16px 40px; text-align:center;}
+.streams .pill{display:inline-block; margin:4px; padding:7px 14px; border:1px solid var(--border); border-radius:20px; font-size:.85rem; background:var(--card);}
+.modal-bg{position:fixed; inset:0; background:rgba(0,0,0,.55); display:flex; align-items:center; justify-content:center; padding:20px; z-index:50;}
+.modal{background:var(--card); border-radius:16px; padding:24px; max-width:380px; width:100%; text-align:center;}
+.modal h3{margin:0 0 8px;} .modal p{color:var(--sub); font-size:.9rem; line-height:1.5; margin:0 0 16px;}
+.footer{text-align:center; color:var(--sub); font-size:.78rem; padding:24px 16px 40px; border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+<div class="nav"><div class="nav-in">
+  <div class="brand" onclick="showHome()">🎓 College Chances Calculator India</div>
+  <div><a href="#" onclick="showHome();return false">Home</a><a href="#" onclick="startApp();return false">Check my chances</a><a href="#" onclick="openAbroad();return false">Study abroad</a><a href="#" id="authLink" class="hidden" onclick="ccAuthClick();return false">Sign in</a></div>
+</div></div>
+
+<main>
+<div id="ccStatus" style="max-width:960px;margin:8px auto 0;padding:0 16px;font-size:.8rem;color:var(--sub);text-align:center;min-height:1.2em"></div>
+<div id="landing">
+  <div class="hero">
+    <h1>Find out where you <span>really stand</span> for college</h1>
+    <p>Pick your stream, enter your marks and exam status, and get a transparent Reach / Target / Likely read for Indian colleges — no fake precision.</p>
+    <button class="btn-primary" onclick="startApp()">Check my chances →</button>
+    <div style="margin-top:14px"><button class="btn-ghost" style="padding:10px 18px;border-radius:10px;font-size:.92rem;cursor:pointer" onclick="openAbroad()">🌍 Explore study abroad (undergraduate)</button></div>
+  </div>
+  <div class="features">
+    <div class="feat"><b>📊 Honest bands</b><span>Reach, Target or Likely — based on recent published cutoffs, not made-up percentages.</span></div>
+    <div class="feat"><b>🧭 Works for any stream</b><span>Management, engineering, medical, law, design and humanities each get their own exam and colleges.</span></div>
+    <div class="feat"><b>🌍 Study-abroad aware</b><span>Converts your Class 12 marks to an approximate US GPA.</span></div>
+  </div>
+  <div class="streams">
+    <span class="pill">IPMAT / BBA</span><span class="pill">JEE</span><span class="pill">NEET</span><span class="pill">CLAT</span><span class="pill">NID / UCEED</span><span class="pill">CUET</span>
+  </div>
+</div>
+
+<div class="wrap hidden" id="abroad">
+  <h2 style="margin:0 0 4px">Study abroad (undergraduate)</h2>
+  <div class="hint" id="abMeta"></div>
+  <div class="card" id="abFilters">
+    <label>Country</label><select id="fCountry" onchange="renderAbroad()"></select>
+    <label>Program area</label><select id="fArea" onchange="renderAbroad()"></select>
+    <label>Scholarship type</label><select id="fSch" onchange="renderAbroad()"></select>
+    <label>Entrance test or document</label><select id="fExam" onchange="renderAbroad()"></select>
+  </div>
+  <div id="abList"></div>
+  <div id="abDetail" class="hidden"></div>
+</div>
+
+<div class="wrap hidden" id="app">
+  <h1>College Chances Calculator India</h1>
+  <div class="sub">Works for any stream — pick yours, plug in your numbers, get a transparent (not fake-precise) read.</div>
+  <div class="progress"><div id="prog" style="width:20%"></div></div>
+
+  <!-- STEP 0: Stream -->
+  <div class="card" id="step0">
+    <h2>Pick your stream</h2>
+    <div class="hint">This decides which exam and which colleges show up later.</div>
+    <div class="chip-grid" id="streamChips">
+      <div class="chip" data-v="management">Management (IPMAT/BBA)</div>
+      <div class="chip" data-v="engineering">Engineering (JEE)</div>
+      <div class="chip" data-v="medical">Medical (NEET)</div>
+      <div class="chip" data-v="law">Law (CLAT)</div>
+      <div class="chip" data-v="design">Design (NID/UCEED)</div>
+      <div class="chip" data-v="humanities">Humanities/General (CUET)</div>
+    </div>
+    <div class="btnrow"><span></span><button class="btn-primary" id="s0next" onclick="goStep(1)" disabled>Next</button></div>
+  </div>
+
+  <!-- STEP 1: Academics -->
+  <div class="card hidden" id="step1">
+    <h2>Academic Profile</h2>
+    <div class="hint">Percentages, not CGPA — the way Indian boards actually report it.</div>
+
+    <label>Class 10 percentage</label>
+    <input type="number" id="p10" min="0" max="100" step="0.1" placeholder="e.g. 85">
+
+    <label>Class 12 percentage (or expected)</label>
+    <input type="number" id="p12" min="0" max="100" step="0.1" placeholder="e.g. 85">
+
+    <label id="examLabel">Entrance exam status</label>
+    <select id="examStatus">
+      <option value="none">Haven't started prepping</option>
+      <option value="prepping" selected>Currently preparing</option>
+      <option value="taken">Already have a mock/actual score</option>
+    </select>
+
+    <div id="examScoreWrap" class="hidden">
+      <label id="examScoreLabel">Best percentile so far (approx, out of 100)</label>
+      <input type="number" id="examScore" min="0" max="100" step="1" placeholder="e.g. 90">
+    </div>
+
+    <label>Reservation category</label>
+    <select id="category">
+      <option value="general" selected>General</option>
+      <option value="ews">EWS</option>
+      <option value="obc">OBC-NCL</option>
+      <option value="sc">SC</option>
+      <option value="st">ST</option>
+    </select>
+
+    <div id="domicileWrap">
+      <label>Home state matches the college's state?</label>
+      <select id="domicile">
+        <option value="same">Yes — applying with home-state quota</option>
+        <option value="diff" selected>No / doesn't apply</option>
+      </select>
+    </div>
+
+    <div class="gpa-note" id="gpaNote">Your Class 12 percentage converts to roughly <b id="gpaText">—</b> on the US GPA scale — useful if you're also eyeing study-abroad options.</div>
+
+    <div class="btnrow">
+      <button class="btn-ghost" onclick="goStep(0)">Previous</button>
+      <button class="btn-primary" onclick="goStep(2)">Next</button>
+    </div>
+  </div>
+
+  <!-- STEP 2: Preferences -->
+  <div class="card hidden" id="step2">
+    <h2>What matters to you</h2>
+    <div class="hint">Change anything — this only tweaks the notes, not the chance bands.</div>
+
+    <label>How important is international exposure / exchange? (1–10)</label>
+    <input type="range" id="intl" min="1" max="10" value="8" oninput="syncRange('intl')">
+    <div class="range-row"><span>NOT IMPORTANT</span><span>VERY IMPORTANT</span></div>
+    <div class="range-val" id="intlVal">8</div>
+
+    <label>How much does brand/ranking prestige matter? (1–10)</label>
+    <input type="range" id="prestige" min="1" max="10" value="7" oninput="syncRange('prestige')">
+    <div class="range-row"><span>NOT IMPORTANT</span><span>VERY IMPORTANT</span></div>
+    <div class="range-val" id="prestigeVal">7</div>
+
+    <label>Annual budget you're comfortable with (INR, in lakhs)</label>
+    <input type="range" id="budget" min="2" max="25" value="7" oninput="syncRange('budget')">
+    <div class="range-row"><span>₹2L</span><span>₹25L+</span></div>
+    <div class="range-val" id="budgetVal">₹7L</div>
+
+    <label>Profile / extracurricular strength — check what applies</label>
+    <div class="hint" style="margin-bottom:8px;">Written tests only get you shortlisted. For IIM-style IPM, the PI is 35% of the final call. This is what feeds that part.</div>
+    <div id="ecList">
+      <label class="ec-item"><input type="checkbox" class="ec-check" value="research"> Research project / paper / science project with recognition</label>
+      <label class="ec-item"><input type="checkbox" class="ec-check" value="internship"> Internship (NGO, corporate, or startup)</label>
+      <label class="ec-item"><input type="checkbox" class="ec-check" value="leadership"> Leadership role (club, event, team)</label>
+      <label class="ec-item"><input type="checkbox" class="ec-check" value="competition"> Competitive extracurricular with a notable result (Olympiad, MUN, debate, quiz)</label>
+      <label class="ec-item"><input type="checkbox" class="ec-check" value="social"> Social-impact / community project</label>
+      <label class="ec-item"><input type="checkbox" class="ec-check" value="portfolio"> Active portfolio (LinkedIn, blog, published work)</label>
+      <label class="ec-item"><input type="checkbox" class="ec-check" value="coursework"> Relevant coursework beyond school (business, finance, coding, etc.)</label>
+    </div>
+
+    <div class="btnrow">
+      <button class="btn-ghost" onclick="goStep(1)">Previous</button>
+      <button class="btn-primary" onclick="computeChances()">See my chances</button>
+    </div>
+  </div>
+
+  <!-- STEP 3: Results -->
+  <div class="card hidden" id="step3">
+    <h2>Your Shortlist &amp; Chances</h2>
+    <div class="hint" id="resultsHint">Bands, not fake precision — see the methodology note below.</div>
+    <div id="results"></div>
+
+    <div class="btnrow">
+      <button class="btn-ghost" onclick="goStep(2)">Previous</button>
+      <span></span>
+    </div>
+
+    <div class="disclaimer" id="disclaimer"></div>
+  </div>
+</div>
+
+</main>
+<div class="modal-bg hidden" id="signinModal"><div class="modal">
+  <h3>Sign in to continue</h3>
+  <p>Sign in with Google to use the college checker. We don't store your marks or answers.</p>
+  <button class="btn-primary" style="width:100%" onclick="if(window.ccUser){ccLoadData()}else{ccSignIn()}">Continue with Google</button>
+  <div id="signinErr" class="source-note"></div>
+  <button class="btn-ghost" style="width:100%;margin-top:10px" onclick="document.getElementById('signinModal').classList.add('hidden'); window.ccPending=null">Not now</button>
+</div></div>
+
+<div class="footer">My College Chances · Estimates for research only, not an official admissions prediction. <span id="ccUpdated"></span> · v11</div>
+
+<script>
+let DATA = null, REQ = null;   // loaded from Firestore after sign-in
+function ccSetData(d,r){ DATA=d; REQ=r; }
+
+function renderReq(container){
+  const r = REQ[stream]; if(!r) return;
+  const box = document.createElement('div');
+  box.className = 'college';
+  box.style.borderColor = 'var(--orange)';
+  box.innerHTML = '<div class="college-name">📋 '+r.title+'</div>'
+    + '<div class="source-note">Status: '+r.asOf+'</div>'
+    + '<ul class="college-note" style="padding-left:18px;margin:8px 0;">'+r.points.map(p=>'<li>'+p+'</li>').join('')+'</ul>'
+    + (r.cutoffs ? '<div class="college-name" style="font-size:.88rem;margin-top:10px;">Recent cutoffs (sourced)</div><ul class="college-note" style="padding-left:18px;margin:6px 0;">'+r.cutoffs.map(p=>'<li>'+p+'</li>').join('')+'</ul>' : '')
+    + '<div class="college-note">Official sites: '+r.links.map(l=>'<a href="'+l[1]+'" target="_blank" rel="noopener" style="color:var(--orange)">'+l[0]+'</a>').join(' · ')+'</div>'
+    + '<div class="source-note">Rules change every year — always confirm on the official site before applying.</div>';
+  container.appendChild(box);
+}
+
+const CATEGORY_ADJUST = { general:0, ews:5, obc:10, sc:25, st:30 };
+let stream = null;
+const STORE_KEY = 'college_chances_v1';
+
+function saveState(){
+  try{
+    const s = {
+      stream, p10:document.getElementById('p10').value, p12:document.getElementById('p12').value,
+      examStatus:document.getElementById('examStatus').value, examScore:document.getElementById('examScore').value,
+      category:document.getElementById('category').value, domicile:document.getElementById('domicile').value,
+      intl:document.getElementById('intl').value, prestige:document.getElementById('prestige').value, budget:document.getElementById('budget').value,
+      ec:Array.from(document.querySelectorAll('.ec-check')).filter(c=>c.checked).map(c=>c.value)
+    };
+    localStorage.setItem(STORE_KEY, JSON.stringify(s));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return;
+    const s = JSON.parse(raw);
+    if(s.stream) selectStream(s.stream);
+    if(s.p10) document.getElementById('p10').value = s.p10;
+    if(s.p12) document.getElementById('p12').value = s.p12;
+    if(s.examStatus) document.getElementById('examStatus').value = s.examStatus;
+    if(s.examScore) document.getElementById('examScore').value = s.examScore;
+    if(s.category) document.getElementById('category').value = s.category;
+    if(s.domicile) document.getElementById('domicile').value = s.domicile;
+    if(s.intl){ document.getElementById('intl').value = s.intl; syncRange('intl'); }
+    if(s.prestige){ document.getElementById('prestige').value = s.prestige; syncRange('prestige'); }
+    if(s.budget){ document.getElementById('budget').value = s.budget; syncRange('budget'); }
+    if(s.ec) document.querySelectorAll('.ec-check').forEach(cb=> cb.checked = s.ec.includes(cb.value));
+    document.getElementById('examScoreWrap').classList.toggle('hidden', document.getElementById('examStatus').value !== 'taken');
+    updateGpaNote();
+  }catch(e){}
+}
+
+function selectStream(v){
+  stream = v;
+  document.querySelectorAll('#streamChips .chip').forEach(x=>x.classList.toggle('sel', x.dataset.v===v));
+  document.getElementById('s0next').disabled = false;
+}
+document.querySelectorAll('#streamChips .chip').forEach(c=>{
+  c.addEventListener('click', ()=>selectStream(c.dataset.v));
+});
+
+function syncRange(id){ document.getElementById(id+'Val').textContent = id==='budget' ? '₹'+document.getElementById(id).value+'L' : document.getElementById(id).value; }
+
+document.getElementById('examStatus').addEventListener('change', function(){
+  document.getElementById('examScoreWrap').classList.toggle('hidden', this.value !== 'taken');
+});
+
+function updateGpaNote(){
+  const p12 = parseFloat(document.getElementById('p12').value)||0;
+  let gpa;
+  if(p12>=90) gpa='3.9–4.0 / 4.0';
+  else if(p12>=80) gpa='3.6–3.8 / 4.0';
+  else if(p12>=70) gpa='3.2–3.5 / 4.0';
+  else if(p12>=60) gpa='2.8–3.1 / 4.0';
+  else gpa='below 2.8 / 4.0';
+  document.getElementById('gpaText').textContent = gpa;
+}
+document.getElementById('p12').addEventListener('input', updateGpaNote);
+updateGpaNote();
+
+function startApp(){
+  if(!window.ccAuthEnabled){ alert(window.ccLoadError || 'Still loading sign-in tools. Wait a few seconds and try again.'); return; }
+  if(!DATA){
+    window.ccPending = startApp;
+    if(!window.ccUser){ document.getElementById('signinModal').classList.remove('hidden'); }
+    else if(window.ccLoadData){ window.ccLoadData(); }
+    return;
+  }
+  document.getElementById('signinModal').classList.add('hidden');
+  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('abroad').classList.add('hidden');
+  document.getElementById('app').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+const ABX = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function openAbroad(){
+  if(!window.ccAuthEnabled){ alert(window.ccLoadError || 'Still loading sign-in tools. Wait a few seconds and try again.'); return; }
+  if(!DATA){
+    window.ccPending = openAbroad;
+    if(!window.ccUser){ document.getElementById('signinModal').classList.remove('hidden'); }
+    else if(window.ccLoadData){ window.ccLoadData(); }
+    return;
+  }
+  document.getElementById('signinModal').classList.add('hidden');
+  document.getElementById('landing').classList.add('hidden');
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('abroad').classList.remove('hidden');
+  buildAbroadFilters();
+  renderAbroad();
+  window.scrollTo(0,0);
+}
+function abOptions(id, label, values){
+  const el = document.getElementById(id); const cur = el.value;
+  el.innerHTML = '<option value="">' + ABX(label) + '</option>' + values.map(v => '<option>' + ABX(v) + '</option>').join('');
+  if(values.includes(cur)) el.value = cur;
+}
+function buildAbroadFilters(){
+  const A = window.ccAbroad;
+  if(!A || !A.items){ return; }
+  const uniq = f => [...new Set(A.items.flatMap(f))].sort();
+  abOptions('fCountry','All countries', uniq(i => [i.country]));
+  abOptions('fArea','All program areas', uniq(i => i.areas || []));
+  abOptions('fSch','Any scholarship type', uniq(i => i.schTypes || []));
+  abOptions('fExam','Any test or document', uniq(i => i.exams || []));
+}
+function renderAbroad(){
+  const A = window.ccAbroad, list = document.getElementById('abList'), det = document.getElementById('abDetail');
+  det.classList.add('hidden'); list.classList.remove('hidden'); document.getElementById('abFilters').classList.remove('hidden');
+  if(!A || !A.items){
+    list.innerHTML = '<div class="card"><div class="college-note">The study-abroad section is not available yet. Please check back soon.</div></div>';
+    document.getElementById('abMeta').textContent = '';
+    return;
+  }
+  document.getElementById('abMeta').textContent = (A.note || '') + (A.updated ? ' Last checked: ' + A.updated + '.' : '');
+  const c = document.getElementById('fCountry').value, a = document.getElementById('fArea').value, s = document.getElementById('fSch').value, e = document.getElementById('fExam').value;
+  const rows = A.items.filter(i => (!c || i.country === c) && (!a || (i.areas||[]).includes(a)) && (!s || (i.schTypes||[]).includes(s)) && (!e || (i.exams||[]).includes(e)));
+  if(!rows.length){ list.innerHTML = '<div class="card"><div class="college-note">No universities match these filters in this batch. Try fewer filters.</div></div>'; return; }
+  list.innerHTML = rows.map(i =>
+    '<div class="college"><div class="college-top"><div class="college-name">' + ABX(i.univ) + '</div><span class="badge target">' + ABX(i.country) + '</span></div>'
+    + '<div class="college-note">' + ABX(i.city) + '</div>'
+    + '<div class="ab-chips">' + (i.areas||[]).map(x => '<span class="ab-chip">' + ABX(x) + '</span>').join('') + (i.schTypes||[]).map(x => '<span class="ab-chip">🎓 ' + ABX(x) + '</span>').join('') + '</div>'
+    + '<div class="college-note">' + ABX((i.cost||'').slice(0,150)) + (i.cost && i.cost.length > 150 ? '…' : '') + '</div>'
+    + '<button class="ab-link-btn" onclick="showAbroadDetail(\'' + ABX(i.id) + '\')">View details →</button></div>'
+  ).join('');
+}
+function showAbroadDetail(id){
+  const A = window.ccAbroad; const i = (A.items||[]).find(x => x.id === id); if(!i) return;
+  const co = (A.countries||{})[i.country] || {};
+  const sec = (t, body) => body ? '<div class="ab-sec"><b>' + ABX(t) + '</b><div>' + ABX(body) + '</div></div>' : '';
+  const links = arr => (arr||[]).filter(l => /^https:\/\//.test(l[1])).map(l => '<a href="' + ABX(l[1]) + '" target="_blank" rel="noopener">' + ABX(l[0]) + '</a>').join('');
+  document.getElementById('abFilters').classList.add('hidden');
+  document.getElementById('abList').classList.add('hidden');
+  const det = document.getElementById('abDetail'); det.classList.remove('hidden');
+  det.innerHTML = '<button class="ab-link-btn" onclick="renderAbroad()">← Back to the list</button>'
+    + '<div class="card"><div class="college-top"><div class="college-name">' + ABX(i.univ) + '</div><span class="badge target">' + ABX(i.country) + '</span></div>'
+    + '<div class="college-note">' + ABX(i.city) + '</div>'
+    + '<div class="ab-chips">' + (i.areas||[]).map(x => '<span class="ab-chip">' + ABX(x) + '</span>').join('') + '</div>'
+    + sec('Tests and entry', (i.exams||[]).join(', ') + '. ' + (i.examNotes||''))
+    + sec('Cost', i.cost) + sec('Scholarships', i.scholarship) + sec('Deadlines', i.deadlines)
+    + sec('Work after graduation', co.work) + sec('Permanent residence', co.pr) + sec('Return on investment (what this version covers)', i.roi)
+    + '<div class="ab-sec ab-links"><b>Official sources</b>' + links(i.links) + links(co.links) + '</div>'
+    + '<div class="source-note">Checked ' + ABX(A.updated || '') + '. Fees, deadlines and visa rules change often, and this is a planning aid only. Always confirm on the official pages before you apply.</div></div>';
+  window.scrollTo(0,0);
+}
+function showHome(){
+  document.getElementById('abroad').classList.add('hidden');
+  document.getElementById('app').classList.add('hidden');
+  document.getElementById('landing').classList.remove('hidden');
+  window.scrollTo(0,0);
+}
+
+function goStep(n){
+  if(n===1){
+    const d = DATA[stream];
+    document.getElementById('examLabel').textContent = d.examLabel;
+    document.getElementById('examScoreLabel').textContent = d.scoreLabel;
+    document.getElementById('domicileWrap').classList.toggle('hidden', stream!=='engineering' && stream!=='medical');
+  }
+  [0,1,2,3].forEach(i=>document.getElementById('step'+i).classList.toggle('hidden', i!==n));
+  document.getElementById('prog').style.width = ((n+1)/4*100)+'%';
+  window.scrollTo(0,0);
+}
+
+function band(score){
+  if(score>=70) return {cls:'likely', label:'Likely'};
+  if(score>=40) return {cls:'target', label:'Target'};
+  return {cls:'reach', label:'Reach'};
+}
+
+function renderCollege(container, name, score, note){
+  const b = band(score);
+  const color = b.cls==='likely' ? 'var(--green)' : b.cls==='target' ? 'var(--amber)' : 'var(--red)';
+  const div = document.createElement('div');
+  div.className = 'college';
+  div.innerHTML = `
+    <div class="college-top">
+      <div class="college-name">${name}</div>
+      <div class="badge ${b.cls}">${b.label}</div>
+    </div>
+    <div class="bar-track"><div class="bar-fill" style="width:${score}%; background:${color}"></div></div>
+    <div class="college-note">${note}</div>`;
+  container.appendChild(div);
+}
+
+function computeChances(){
+  if(!DATA){ startApp(); return; }
+  runCompute();
+}
+
+function runCompute(){
+  const raw10 = document.getElementById('p10').value, raw12 = document.getElementById('p12').value;
+  const rawStatus = document.getElementById('examStatus').value, rawScore = document.getElementById('examScore').value;
+  if(raw10 === '' || raw12 === '' || (rawStatus === 'taken' && rawScore === '')){
+    alert('Please enter your Class 10 and Class 12 marks' + (rawStatus === 'taken' ? ' and your exam score' : '') + ' first.');
+    goStep(1); return;
+  }
+  saveState();
+  const p10 = parseFloat(document.getElementById('p10').value)||0;
+  const p12 = parseFloat(document.getElementById('p12').value)||0;
+  const examStatus = document.getElementById('examStatus').value;
+  const examScore = examStatus==='taken' ? (parseFloat(document.getElementById('examScore').value)||0) : null;
+  const category = document.getElementById('category').value;
+  const domicile = document.getElementById('domicile').value;
+  const academicAvg = (p10+p12)/2;
+  const academicComponent = Math.min(100, Math.max(0, (academicAvg-50)*2));
+  const examComponent = examScore!==null ? examScore : (examStatus==='prepping' ? 50 : 30);
+
+  const d = DATA[stream];
+  const results = document.getElementById('results');
+  results.innerHTML = '';
+  document.getElementById('resultsHint').textContent = `Based on ${d.exam}, your board percentages, and ${category.toUpperCase()} category.`;
+  const mainTitle = document.createElement('div');
+  mainTitle.className = 'section-title';
+  mainTitle.style.marginTop = '0';
+  mainTitle.textContent = 'Indian Colleges';
+  renderReq(results);
+  results.appendChild(mainTitle);
+  const hasPIColleges = d.colleges.some(c=>c.piWeight>0);
+  document.getElementById('disclaimer').innerHTML = '<b>How this is calculated:</b> each band weighs your entrance-exam strength against typical recent General-category cutoffs, adjusted for your reservation category and (where it matters) home-state quota, plus a smaller academic-percentage component — not an official chancing model. ' + d.disclaimer + (hasPIColleges ? ' For colleges with an interview/studio/PI stage, the written-test estimate is blended with your checked profile strength at that stage\'s actual weight — the checklist is a rough self-rating, not a real evaluation of your essays, WAT or interview performance. Colleges in this stream with no interview stage use the written-test score only, untouched by the checklist.' : ' This stream\'s admissions are purely score/rank-based with no interview stage, so the profile checklist doesn\'t affect any band here.') + ' Every band here is a starting point for research, not a verdict.';
+
+  const ecChecked = Array.from(document.querySelectorAll('.ec-check')).filter(cb=>cb.checked).length;
+  const ecTotal = document.querySelectorAll('.ec-check').length;
+  const ecStrength = Math.round((ecChecked/ecTotal)*100);
+
+  d.colleges.forEach(c=>{
+    let effectiveDifficulty = c.difficulty - (CATEGORY_ADJUST[category]||0);
+    if(c.quota && domicile==='same') effectiveDifficulty -= 8;
+    effectiveDifficulty = Math.max(10, effectiveDifficulty);
+
+    const examW = d.examWeight;
+    const acadW = 1-examW;
+    let score;
+    if(examScore!==null){
+      score = Math.round(50 + (examComponent - effectiveDifficulty)*1.1*examW*2 + (academicComponent-50)*acadW*0.6);
+    } else {
+      score = Math.round(academicComponent*acadW*0.6 + (examStatus==='prepping'?30:15) - (effectiveDifficulty-70)*0.3);
+    }
+    score = Math.max(3, Math.min(97, score));
+
+    let note = c.note;
+    if(c.piWeight){
+      const shortlistScore = score;
+      score = Math.round(score*(1-c.piWeight) + ecStrength*c.piWeight);
+      score = Math.max(3, Math.min(97, score));
+      note += ` Shortlist-only estimate was ${shortlistScore}%; blended here with your profile strength (${ecStrength}/100) at this college's ~${Math.round(c.piWeight*100)}% PI weight.`;
+    }
+    renderCollege(results, c.name, score, note);
+  });
+
+  goStep(3);
+}
+
+loadState();
+</script>
+<script type="module">
+// ===== PASTE YOUR FIREBASE WEB APP CONFIG HERE (Firebase console > Project settings > Your apps) =====
+const firebaseConfig = {
+  apiKey: "AIzaSyDVdoGYJ4FMumYZklQtHx-F5NAufy3qd5M",
+  authDomain: "college-chances.firebaseapp.com",
+  projectId: "college-chances",
+  appId: "1:528641904740:web:e19da7c67cce90fb5e0f71"
+};
+// =================================================================================================
+if(!firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith("YOUR_")){
+  console.warn("Firebase is not configured yet: the checker stays locked.");
+} else {
+  const setMsg = t => { const el = document.getElementById('ccStatus'); if(el) el.textContent = t; };
+  setMsg('Loading sign-in tools…');
+  // Load all three Firebase modules from ONE version; retry, then fall back to another version if the network hiccups.
+  const loadScript = u => new Promise((res, rej) => {
+    const el = document.createElement('script');
+    el.src = u; el.onload = res; el.onerror = () => rej(new Error('script failed: ' + u));
+    document.head.appendChild(el);
+  });
+  // Modular build: three ES modules from one host.
+  const modular = urls => async () => {
+    const [a, au, f] = await Promise.all(urls.map(u => import(u)));
+    const app = a.initializeApp(firebaseConfig);
+    return { mods: { ...a, ...au, ...f }, auth: au.getAuth(app), db: f.getFirestore(app) };
+  };
+  // Compat build: plain script files that share ONE global "firebase", so nothing can get duplicated.
+  const compat = base => async () => {
+    await loadScript(base + 'firebase-app-compat.js');
+    await loadScript(base + 'firebase-auth-compat.js');
+    await loadScript(base + 'firebase-firestore-compat.js');
+    const fb = window.firebase;
+    if(!fb.apps.length) fb.initializeApp(firebaseConfig);
+    const db = fb.firestore();
+    return {
+      mods: {
+        GoogleAuthProvider: fb.auth.GoogleAuthProvider,
+        signInWithPopup: (au, p) => au.signInWithPopup(p),
+        signInWithRedirect: (au, p) => au.signInWithRedirect(p),
+        getRedirectResult: au => au.getRedirectResult(),
+        signOut: au => au.signOut(),
+        onAuthStateChanged: (au, cb) => au.onAuthStateChanged(cb),
+        doc: (d, c, i) => ({ c, i }),
+        getDoc: async ref => { const sn = await db.collection(ref.c).doc(ref.i).get(); return { exists: () => sn.exists, data: () => sn.data() }; }
+      },
+      auth: fb.auth(), db
+    };
+  };
+  const G = v => ["app","auth","firestore"].map(n => `https://www.gstatic.com/firebasejs/${v}/firebase-${n}.js`);
+  async function loadFirebase(){
+    // If one host is blocked on this network, move on to the next.
+    const attempts = [
+      ["gstatic", modular(G("10.14.1"))],
+      ["jsdelivr (compat)", compat("https://cdn.jsdelivr.net/npm/firebase@10.14.1/")],
+      ["unpkg (compat)", compat("https://unpkg.com/firebase@10.14.1/")],
+      ["esm.sh", modular(["app","auth","firestore"].map(n => `https://esm.sh/firebase@10.14.1/${n}`))],
+      ["jsdelivr", modular(["app","auth","firestore"].map(n => `https://cdn.jsdelivr.net/npm/firebase@10.14.1/${n}/+esm`))],
+      ["gstatic 11", modular(G("11.0.2"))]
+    ];
+    for(let round = 0; round < 2; round++){
+      for(const [name, fn] of attempts){
+        try{
+          setMsg('Loading sign-in tools (' + name + ')…');
+          return await fn();
+        }catch(e){ console.warn("Firebase source failed: " + name, e); }
+      }
+      await new Promise(r => setTimeout(r, 1500));
+    }
+    return null;
+  }
+  const FB = await loadFirebase();
+  if(!FB){
+    window.ccLoadError = 'Sign-in tools could not be downloaded. Check your internet, turn off any ad-blocker or data saver, then reload.';
+    setMsg('⚠ ' + window.ccLoadError);
+  } else {
+  const { GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged, doc, getDoc } = FB.mods;
+  const auth = FB.auth;
+  const db = FB.db;
+  window.ccAuthEnabled = true;
+  const link = document.getElementById('authLink');
+  const err = document.getElementById('signinErr');
+  link.classList.remove('hidden');
+
+  const status = t => { document.getElementById('ccStatus').textContent = t; };
+  window.ccLoadData = async () => {
+    if(!window.ccUser) return;
+    status('Signed in as ' + window.ccUser.email + ' — loading college data…');
+    let stage = 'reading the database';
+    try{
+      // The data lives only in Firestore. Its rules let signed-in users read it and nobody write it.
+      const snap = await getDoc(doc(db, 'appdata', 'main'));
+      if(!snap.exists()) throw new Error('document appdata/main not found');
+      const v = snap.data();
+      stage = 'reading field dataJson';
+      const d = JSON.parse(v.dataJson);
+      stage = 'reading field reqJson';
+      const r = JSON.parse(v.reqJson);
+      ccSetData(d, r);
+      try{ window.ccAbroad = v.abroadJson ? JSON.parse(v.abroadJson) : null; }catch(_e){ window.ccAbroad = null; }
+      err.textContent = '';
+      const upd = (v.updatedAt || '').toString().slice(0, 40);
+      status('Signed in as ' + window.ccUser.email + ' ✓ data loaded' + (upd ? ' · Data updated: ' + upd : ''));
+      const upEl = document.getElementById('ccUpdated');
+      if(upEl) upEl.textContent = upd ? '· Data last updated: ' + upd : '';
+      document.getElementById('signinModal').classList.add('hidden');
+      if(window.ccPending){ const f = window.ccPending; window.ccPending = null; f(); }
+    }catch(e){
+      const msg = 'Could not load data while ' + stage + ': ' + (e.code || e.message);
+      status('⚠ ' + msg);
+      err.textContent = msg;
+      document.getElementById('signinModal').classList.remove('hidden');
+    }
+  };
+  onAuthStateChanged(auth, u => {
+    window.ccUser = u || null;
+    link.textContent = u ? 'Sign out' : 'Sign in';
+    if(!u){ ccSetData(null,null); status('Not signed in'); showHome(); return; }
+    window.ccLoadData();
+  });
+  window.ccSignIn = async () => {
+    const provider = new GoogleAuthProvider();
+    try{ await signInWithPopup(auth, provider); }
+    catch(e){
+      const code = e.code || '';
+      // Some browsers/webviews can't open the sign-in popup: switch to the full-page sign-in instead.
+      if(code === 'auth/operation-not-supported-in-this-environment' || code === 'auth/popup-blocked'){
+        err.textContent = 'Popup not available here — switching to full-page sign-in…';
+        try{ await FB.mods.signInWithRedirect(auth, provider); return; }
+        catch(e2){ err.textContent = 'Sign-in failed: ' + (e2.code || e2.message); return; }
+      }
+      err.textContent = 'Sign-in failed: ' + (code || e.message);
+    }
+  };
+  // Show any error left over from a full-page sign-in attempt.
+  if(FB.mods.getRedirectResult){
+    FB.mods.getRedirectResult(auth).catch(e => {
+      err.textContent = 'Sign-in failed: ' + (e.code || e.message);
+      document.getElementById('signinModal').classList.remove('hidden');
+    });
+  }
+  window.ccAuthClick = () => window.ccUser ? signOut(auth) : window.ccSignIn();
+}
+  }
+</script>
+</body>
+</html>
